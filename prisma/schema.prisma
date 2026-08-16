@@ -1,0 +1,334 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                 String             @id @default(cuid())
+  name               String
+  email              String             @unique
+  passwordHash       String
+  role               UserRole
+  status             UserStatus         @default(ACTIVE)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  aiAnalyses         AIAnalysis[]
+  aiRecommendations  AIRecommendation[]
+  assignmentsCreated Assignment[]       @relation("AssignmentTeacher")
+  classesTaught      Class[]            @relation("ClassTeacher")
+  coursesTaught      Course[]           @relation("CourseTeacher")
+  examsCreated       Exam[]             @relation("ExamTeacher")
+  reports            Report[]
+  studentProfile     StudentProfile?
+  teacherProfile     TeacherProfile?
+}
+
+model StudentProfile {
+  id                String             @id @default(cuid())
+  userId            String             @unique
+  rollNumber        String             @unique
+  department        String?
+  semester          Int?
+  year              Int?
+  aiAnalyses        AIAnalysis[]
+  recommendations   AIRecommendation[]
+  attendanceRecords Attendance[]
+  enrollments       Enrollment[]
+  examResults       ExamResult[]
+  grades            Grade[]
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submissions       Submission[]
+}
+
+model TeacherProfile {
+  id         String  @id @default(cuid())
+  userId     String  @unique
+  employeeId String  @unique
+  department String?
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Course {
+  id          String       @id @default(cuid())
+  code        String       @unique
+  name        String
+  description String?
+  credits     Int?
+  department  String?
+  semester    Int?
+  schedule    String?
+  syllabus    String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  teacherId   String?
+
+  assignments Assignment[]
+  classes     Class[]
+  teacher     User?        @relation("CourseTeacher", fields: [teacherId], references: [id])
+  enrollments Enrollment[]
+  exams       Exam[]
+  grades      Grade[]
+}
+
+model Class {
+  id         String       @id @default(cuid())
+  name       String
+  section    String?
+  room       String?
+  schedule   String?
+  createdAt  DateTime     @default(now())
+  courseId   String
+  teacherId  String?
+
+  attendance Attendance[]
+  course     Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  teacher    User?        @relation("ClassTeacher", fields: [teacherId], references: [id])
+
+  @@index([courseId])
+  @@index([teacherId])
+}
+
+model Enrollment {
+  id         String         @id @default(cuid())
+  studentId  String
+  courseId   String
+  semester   Int?
+  enrolledAt DateTime       @default(now())
+
+  course     Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student    StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, courseId])
+  @@index([courseId])
+}
+
+model Attendance {
+  id        String           @id @default(cuid())
+  studentId String
+  classId   String
+  date      DateTime
+  status    AttendanceStatus
+  remarks   String?
+
+  class     Class          @relation(fields: [classId], references: [id], onDelete: Cascade)
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, classId, date])
+  @@index([studentId])
+  @@index([classId])
+}
+
+model Assignment {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  dueDate     DateTime
+  maxMarks    Float        @default(100)
+  createdAt   DateTime     @default(now())
+  courseId    String
+  teacherId   String?
+
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  teacher     User?        @relation("AssignmentTeacher", fields: [teacherId], references: [id])
+  submissions Submission[]
+
+  @@index([courseId])
+}
+
+model Submission {
+  id           String           @id @default(cuid())
+  assignmentId String
+  studentId    String
+  submittedAt  DateTime?
+  fileUrl      String?
+  content      String?
+  marks        Float?
+  feedback     String?
+  status       SubmissionStatus @default(PENDING)
+
+  assignment   Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student      StudentProfile   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([assignmentId, studentId])
+  @@index([studentId])
+}
+
+model Exam {
+  id          String         @id @default(cuid())
+  title       String
+  description String?
+  examDate    DateTime
+  duration    Int?
+  totalMarks  Float
+  createdAt   DateTime       @default(now())
+  courseId    String
+  teacherId   String?
+
+  course      Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  teacher     User?          @relation("ExamTeacher", fields: [teacherId], references: [id])
+  questions   ExamQuestion[]
+  results     ExamResult[]
+
+  @@index([courseId])
+}
+
+model ExamQuestion {
+  id       String @id
+  examId   String
+  question String
+  marks    Float
+  order    Int
+
+  exam     Exam   @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@index([examId])
+}
+
+model ExamResult {
+  id        String         @id @default(cuid())
+  examId    String
+  studentId String
+  marks     Float
+  grade     String?
+  feedback  String?
+  createdAt DateTime       @default(now())
+
+  exam      Exam           @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, studentId])
+  @@index([studentId])
+}
+
+model Grade {
+  id        String         @id @default(cuid())
+  studentId String
+  courseId  String
+  semester  Int?
+  score     Float
+  grade     String?
+  remarks   String?
+  createdAt DateTime       @default(now())
+
+  course    Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, courseId, semester])
+  @@index([studentId])
+}
+
+model AIAnalysis {
+  id              String          @id @default(cuid())
+  studentId       String?
+  type            AIAnalysisType
+  overallScore    Float?
+  attendanceRate  Float?
+  riskScore       Float?
+  weakSubjects    Json?
+  performanceData Json?
+  summary         String?
+  createdAt       DateTime       @default(now())
+  createdById     String?
+
+  createdBy       User?           @relation(fields: [createdById], references: [id])
+  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([type])
+}
+
+model AIRecommendation {
+  id        String                 @id @default(cuid())
+  studentId String?
+  type      RecommendationType
+  priority  RecommendationPriority @default(MEDIUM)
+  title     String
+  message   String
+  action    String?
+  isRead    Boolean                @default(false)
+  createdAt DateTime               @default(now())
+  creatorId String?
+
+  creator   User?           @relation(fields: [creatorId], references: [id])
+  student   StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([priority])
+}
+
+model Report {
+  id            String     @id @default(cuid())
+  title         String
+  type          ReportType
+  description   String?
+  data          Json?
+  fileUrl       String?
+  createdAt     DateTime   @default(now())
+  generatedById String?
+
+  generatedBy   User?      @relation(fields: [generatedById], references: [id])
+
+  @@index([type])
+  @@index([generatedById])
+}
+
+enum UserRole {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum SubmissionStatus {
+  PENDING
+  SUBMITTED
+  LATE
+  GRADED
+}
+
+enum AIAnalysisType {
+  PERFORMANCE
+  RISK
+  WEAK_SUBJECT
+  ATTENDANCE
+  OVERALL
+}
+
+enum RecommendationType {
+  STUDY
+  ATTENDANCE
+  ASSIGNMENT
+  EXAM
+  SUBJECT
+  GENERAL
+}
+
+enum RecommendationPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum ReportType {
+  STUDENT_PERFORMANCE
+  CLASS_PERFORMANCE
+  ATTENDANCE
+  EXAM_ANALYSIS
+  AI_INSIGHTS
+}
