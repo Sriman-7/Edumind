@@ -11,7 +11,7 @@ DEMO CREDENTIALS
 
 Student
 Email: student@edumind.com
-Password: <student password>
+Password: Test12345
 
 Teacher
 Email: teacher@edumind.com
