@@ -8,7 +8,7 @@ https://edumind-7.vercel.app/
 DEMO CREDENTIALS
 
 Student
-Email: student@edumind.com
+Email: test@edumind.com
 Password: Test12345
 
 Teacher
