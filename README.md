@@ -2,6 +2,25 @@ EduMind
 
 AI-Powered Education Management Portal
 WEB DEVELOPMENT × INTEGRATED AI
+LIVE DEMO
+https://edumind-7.vercel.app/
+
+DEMO CREDENTIALS
+
+Student
+Email: student@edumind.com
+Password: <student password>
+
+Teacher
+Email: teacher@edumind.com
+Password: Teacher12345
+
+Admin
+Email: admin@edumind.com
+Password: Admin12345
+
+SOURCE CODE
+https://github.com/Sriman-7/Edumind
 
 EduMind is a full-stack education management platform designed to connect students, teachers, and administrators through one intelligent academic workspace.
 
