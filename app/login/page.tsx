@@ -3,6 +3,27 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+const demoAccounts = [
+  {
+    role: "Student",
+    email: "test@edumind.com",
+    password: "Test12345",
+    icon: "S",
+  },
+  {
+    role: "Teacher",
+    email: "teacher@edumind.com",
+    password: "Teacher12345",
+    icon: "T",
+  },
+  {
+    role: "Admin",
+    email: "admin@edumind.com",
+    password: "Admin12345",
+    icon: "A",
+  },
+];
+
 export default function Home() {
   const router = useRouter();
 
@@ -16,6 +37,12 @@ export default function Home() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  function useDemoAccount(account: (typeof demoAccounts)[number]) {
+    setEmail(account.email);
+    setPassword(account.password);
+    setMessage(`Demo ${account.role} credentials loaded.`);
+  }
 
   async function handleLogin(
     event: React.FormEvent<HTMLFormElement>
@@ -49,7 +76,9 @@ export default function Home() {
       }
 
       if (!data.user || !data.user.role) {
-        setMessage("Login succeeded, but account information is missing.");
+        setMessage(
+          "Login succeeded, but account information is missing."
+        );
         setLoading(false);
         return;
       }
@@ -77,20 +106,19 @@ export default function Home() {
       setLoading(false);
     } catch (error) {
       console.error("Login error:", error);
-      setMessage("Unable to connect to the server. Please try again.");
+      setMessage(
+        "Unable to connect to the server. Please try again."
+      );
       setLoading(false);
     }
   }
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0B0B0A] text-[#F4F1E8]">
-
-      {/* Ambient background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-20 -top-24 h-80 w-80 rounded-full bg-[#B9914F]/10 blur-3xl animate-[pulse_7s_ease-in-out_infinite]" />
         <div className="absolute -right-24 top-16 h-[26rem] w-[26rem] rounded-full bg-[#8FB09A]/8 blur-3xl animate-[pulse_9s_ease-in-out_infinite]" />
         <div className="absolute bottom-[-10rem] left-1/3 h-80 w-80 rounded-full bg-[#B7A4C8]/6 blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
-
         <div
           className="absolute inset-0 opacity-[0.035]"
           style={{
@@ -101,13 +129,11 @@ export default function Home() {
         />
       </div>
 
-      {/* Top brand */}
       <header className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D8B36A] to-[#9D7A43] text-lg font-bold text-[#0B0B0A] shadow-lg shadow-[#B9914F]/15">
             E
           </div>
-
           <div>
             <p className="text-sm font-semibold tracking-tight">
               EduMind
@@ -126,11 +152,11 @@ export default function Home() {
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-88px)] w-full max-w-7xl items-center px-5 pb-10 pt-2 sm:px-8 lg:px-10">
         <div className="grid w-full gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-
-          {/* Left: product story */}
           <section
             className={`hidden lg:block ${
-              mounted ? "animate-[fadeUp_.8s_ease-out]" : "opacity-0"
+              mounted
+                ? "animate-[fadeUp_.8s_ease-out]"
+                : "opacity-0"
             }`}
           >
             <div className="max-w-xl">
@@ -189,10 +215,11 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Login card */}
           <section
             className={`mx-auto w-full max-w-xl ${
-              mounted ? "animate-[fadeUp_.8s_.12s_ease-out_both]" : "opacity-0"
+              mounted
+                ? "animate-[fadeUp_.8s_.12s_ease-out_both]"
+                : "opacity-0"
             }`}
           >
             <div className="relative overflow-hidden rounded-[30px] border border-[#34342C] bg-[#11110F]/90 p-5 shadow-[0_30px_100px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-7">
@@ -200,8 +227,6 @@ export default function Home() {
               <div className="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-48 rounded-full bg-[#8FB09A]/6 blur-3xl" />
 
               <div className="relative">
-
-                {/* Mobile-only intro */}
                 <div className="mb-7 lg:hidden">
                   <div className="inline-flex items-center gap-2 rounded-full border border-[#8A6E3E]/30 bg-[#B9914F]/8 px-3 py-1.5 text-xs font-medium text-[#D8B36A]">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#D8B36A]" />
@@ -240,7 +265,6 @@ export default function Home() {
                   onSubmit={handleLogin}
                   className="mt-7 space-y-5"
                 >
-                  {/* Email */}
                   <div>
                     <label
                       htmlFor="email"
@@ -270,7 +294,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Password */}
                   <div>
                     <div className="mb-2 flex items-center justify-between">
                       <label
@@ -292,7 +315,9 @@ export default function Home() {
 
                       <input
                         id="password"
-                        type={showPassword ? "text" : "password"}
+                        type={
+                          showPassword ? "text" : "password"
+                        }
                         value={password}
                         onChange={(event) =>
                           setPassword(event.target.value)
@@ -321,7 +346,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={loading}
@@ -347,25 +371,92 @@ export default function Home() {
                   </button>
                 </form>
 
-                {/* Message */}
                 {message && (
                   <div
                     className={`mt-5 rounded-2xl border px-4 py-3 text-sm ${
                       message === "Login successful!"
                         ? "border-[#6D8F77]/25 bg-[#6D8F77]/10 text-[#A8C3AF]"
-                        : "border-[#A95E56]/25 bg-[#A95E56]/10 text-[#E8A7A0]"
+                        : message.startsWith("Demo ")
+                          ? "border-[#B9914F]/25 bg-[#B9914F]/10 text-[#D8B36A]"
+                          : "border-[#A95E56]/25 bg-[#A95E56]/10 text-[#E8A7A0]"
                     }`}
                   >
                     <div className="flex items-start gap-2">
                       <span>
                         {message === "Login successful!"
                           ? "✓"
-                          : "!"}
+                          : message.startsWith("Demo ")
+                            ? "⌁"
+                            : "!"}
                       </span>
                       <span>{message}</span>
                     </div>
                   </div>
                 )}
+
+                {/* Demo credentials */}
+                <div className="mt-6 rounded-2xl border border-[#34342C] bg-[#161612] p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#D8B36A]">
+                        Demo credentials
+                      </p>
+                      <p className="mt-1 text-xs leading-5 text-[#817E74]">
+                        Use these accounts to explore the protected
+                        teacher and administrator portals.
+                      </p>
+                    </div>
+
+                    <span className="rounded-full border border-[#8A6E3E]/30 bg-[#B9914F]/10 px-2.5 py-1 text-[10px] font-semibold text-[#D8B36A]">
+                      BUILDATHON
+                    </span>
+                  </div>
+
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {demoAccounts.map((account) => (
+                      <button
+                        key={account.role}
+                        type="button"
+                        onClick={() =>
+                          useDemoAccount(account)
+                        }
+                        disabled={loading}
+                        className="group rounded-2xl border border-[#34342C] bg-[#0B0B0A] p-4 text-left transition hover:-translate-y-0.5 hover:border-[#8A6E3E]/50 hover:bg-[#11110F] disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#B9914F]/10 text-xs font-bold text-[#D8B36A]">
+                            {account.icon}
+                          </span>
+
+                          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#625F56] group-hover:text-[#D8B36A]">
+                            Use account
+                          </span>
+                        </div>
+
+                        <p className="mt-3 text-sm font-semibold text-[#F4F1E8]">
+                          {account.role}
+                        </p>
+
+                        <p className="mt-2 break-all text-xs text-[#B7B4A8]">
+                          {account.email}
+                        </p>
+
+                        <p className="mt-1 text-xs text-[#817E74]">
+                          Password:{" "}
+                          <span className="text-[#B7B4A8]">
+                            {account.password}
+                          </span>
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+
+                  <p className="mt-3 text-[11px] leading-5 text-[#625F56]">
+                    Demo accounts are intended for hackathon evaluation only.
+                    Please do not use these credentials for real
+                    personal or sensitive information.
+                  </p>
+                </div>
 
                 <div className="mt-6 flex items-center gap-3">
                   <div className="h-px flex-1 bg-[#26261F]" />
