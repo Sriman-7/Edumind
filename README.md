@@ -1,833 +1,136 @@
-EduMind
+# 🎓 EduMind — AI-Powered Education Management Portal
 
-AI-Powered Education Management Portal
-WEB DEVELOPMENT × INTEGRATED AI
-LIVE DEMO
-https://edumind-7.vercel.app/
+[![Next.js](https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-7.9-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-DEMO CREDENTIALS
+> **Track:** Web Development × Integrated Artificial Intelligence  
+> **Live Demo:** [https://edumind-7.vercel.app/](https://edumind-7.vercel.app/)  
+> **Repository:** [https://github.com/Sriman-7/Edumind](https://github.com/Sriman-7/Edumind)
 
-Student
-Email: test@edumind.com
-Password: Test12345
+---
 
-Teacher
-Email: teacher@edumind.com
-Password: Teacher12345
+## 🌟 Executive Summary
 
-Admin
-Email: admin@edumind.com
-Password: Admin12345
+**EduMind** is an intelligent, full-stack Academic Operations & Student Analytics Portal engineered to bridge the gap between static academic records and proactive learning intelligence. 
 
-SOURCE CODE
-https://github.com/Sriman-7/Edumind
+Rather than functioning as a passive data silo, EduMind continuously correlates **attendance trends, assignment submissions, examination metrics, and classroom engagements** to compute real-time student risk factors, detect weak-subject patterns early, and generate personalized intervention recommendations for educators and advisors.
 
-EduMind is a full-stack education management platform designed to connect students, teachers, and administrators through one intelligent academic workspace.
+---
 
-Instead of only storing academic records, EduMind turns attendance, assignments, examinations, grades, and academic activity into actionable academic intelligence through risk analysis, weak-subject detection, and personalized recommendations.
+## 🔑 Demo Access Credentials
 
-🎯 Hackathon Vision
+| Role | Email Address | Password | Permissions |
+| :--- | :--- | :--- | :--- |
+| 👨‍🎓 **Student** | `test@edumind.com` | `Test12345` | View personal courses, submit assignments, track grades & AI study plans |
+| 👨‍🏫 **Teacher** | `teacher@edumind.com` | `Teacher12345` | Course authoring, assignment grading, attendance logging, class analytics |
+| 🛡️ **Administrator** | `admin@edumind.com` | `Admin12345` | Institutional management, user provisioning, global analytics & AI reports |
 
-EduMind addresses a simple problem:
+---
 
-Academic information is often scattered across different systems, making it difficult for students, teachers, and administrators to understand performance early and act on it.
+## 🏛️ System Architecture
 
-EduMind brings these workflows together:
+```mermaid
+flowchart TD
+    subgraph CLIENT["1. Responsive Client Layer (Next.js 16 / React 19)"]
+        UI1["👨‍🎓 Student Portal (Grades, Tasks, AI Study Copilot)"]
+        UI2["👨‍🏫 Teacher Portal (Attendance, Grading, Analytics)"]
+        UI3["🛡️ Admin Command Center (Institutional Audits & Users)"]
+    end
 
-Academic Data
-     ↓
-Attendance + Assignments + Exams + Grades
-     ↓
-Academic Intelligence
-     ↓
-Risk Detection + Weak Areas + Trends
-     ↓
-Personalized Recommendations
-     ↓
-Better Academic Decisions
+    subgraph API["2. API & Business Logic Layer (Next.js App Router)"]
+        AUTH["NextAuth / Jose JWT Authentication (RBAC)"]
+        ROUTES["RESTful Endpoints (/api/courses, /api/student, /api/teacher)"]
+        ENGINE["Academic Analytics Engine & Risk Scoring Matrix"]
+    end
 
-✨ Key Highlights
+    subgraph AI["3. Integrated AI Intelligence Layer"]
+        GEMINI["Google Gemini API & Local Heuristic Advisor"]
+        INSIGHTS["• Weak Subject Detection\n• Dropout / Failure Risk Predictor\n• Automated Study Roadmap Generator"]
+    end
 
-👨‍🎓 Student Intelligence
+    subgraph DATA["4. Persistence & Database Layer"]
+        PRISMA["Prisma ORM (LibSQL / PostgreSQL Adapters)"]
+        DB[(Relational Academic DB)]
+    end
 
-Students can:
+    CLIENT --> AUTH --> ROUTES --> ENGINE
+    ENGINE --> GEMINI --> INSIGHTS
+    ROUTES --> PRISMA --> DB
+```
 
-View their academic dashboard
+---
 
-Explore courses and academic information
+## ✨ Core Platform Highlights
 
-Track attendance
+### 1. 👨‍🎓 Student Intelligence Portal
+- **Real-Time Academic Dashboard:** Unified GPA, attendance percentage, upcoming assignments, and examination schedule.
+- **AI Academic Advisor:** Context-aware study assistant that identifies weak subject topics and generates personalized revision strategies.
+- **Direct Assignment Submission:** Upload and track status of coursework with immediate teacher feedback.
 
-View assignments and deadlines
+### 2. 👨‍🏫 Teacher Command Center
+- **Class Performance Analytics:** Visual distribution of student grades, attendance drop-off curves, and risk flags.
+- **Streamlined Grading Hub:** Grade submissions with customized rubrics and instant student notification.
+- **Attendance Logging:** One-click attendance sheets with automatic absence alerts sent to at-risk students.
 
-Submit assignments
+### 3. 🛡️ Administrator Operations Center
+- **Institutional Overview:** Total enrollment stats, faculty distribution, course capacities, and system audit logs.
+- **Role-Based Access Control (RBAC):** Granular permission enforcement ensuring data privacy across departments.
+- **Comprehensive Academic Reports:** Export institutional health summaries for accreditation and review.
 
-View submission status
+---
 
-View marks and teacher feedback
+## 🛠️ Technology Stack
 
-View examination results
+| Domain | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend Framework** | **Next.js 16 (App Router)** | Server Components, Turbopack, Fast Navigation |
+| **UI Library** | **React 19 & Tailwind CSS v4** | Modern responsive glassmorphism interface |
+| **Language** | **TypeScript (Strict Mode)** | End-to-end type safety and maintainability |
+| **Database & ORM** | **Prisma ORM & SQLite / LibSQL** | Schema migrations and relation queries |
+| **Authentication** | **Jose & BCrypt.js** | Secure JWT session tokens and password hashing |
+| **Artificial Intelligence** | **Google Gemini API (@google/genai)** | Student study roadmaps & risk analysis |
+| **Icons & UI Utilities** | **Lucide React & CVA** | Accessible iconography and variant styling |
 
-View course grades
+---
 
-Track academic progress
+## 🚀 Quick Start (Local Setup)
 
-View AI-generated risk information
-
-Identify weak academic areas
-
-Receive personalized recommendations
-
-👨‍🏫 Teacher Intelligence
-
-Teachers can:
-
-Access a dedicated teaching dashboard
-
-Monitor student performance
-
-View academic risk information
-
-Record attendance
-
-Mark students as Present, Late, Absent, or Excused
-
-Review student assignments
-
-Evaluate submissions
-
-Enter marks
-
-Provide feedback
-
-Mark submissions as graded
-
-Monitor academic activity
-
-🏛️ Administrator Intelligence
-
-Administrators can:
-
-Monitor the education platform
-
-View students and teachers
-
-Manage user status
-
-Review courses and classes
-
-Create courses
-
-Monitor assignments
-
-Monitor examinations
-
-Review academic records
-
-View reports and analytics
-
-Compare academic resource metrics
-
-Monitor platform activity
-
-View AI risk distribution
-
-Monitor system health
-
-🤖 AI Academic Intelligence
-
-EduMind analyzes academic signals such as:
-
-Attendance
-
-Academic scores
-
-Assignment completion
-
-Pending assignments
-
-Examination performance
-
-The system can produce:
-
-Academic risk score
-
-LOW / MEDIUM / HIGH risk classification
-
-Weak-subject indicators
-
-Academic summaries
-
-Personalized recommendations
-
-Early-warning information
-
-Academic decision-support insights
-
-Important: The current implementation provides academic intelligence through implemented risk-analysis and recommendation logic. It does not falsely claim a specific external LLM or model where one is not actually integrated.
-
-🧭 Product Experience
-
-Public Portal
-
-/
-├── Home
-├── Courses
-│   └── Course Details
-└── Contact
-
-Courses
-
-Students can search and filter courses using:
-
-Course name / code
-
-Department
-
-Semester
-
-Course details expose:
-
-Description
-
-Teacher
-
-Department
-
-Semester
-
-Credits
-
-Schedule
-
-Syllabus
-
-Assignments
-
-Examinations
-
-Enrollment
-
-👨‍🎓 Student Portal
-
-Main route
-
-/student/dashboard
-
-Assignment submission
-
-/student/assignments/[id]
-
-Student workflow:
-
-Dashboard
-   ↓
-Upcoming Assignment
-   ↓
-Assignment Details
-   ↓
-Submit Work
-   ↓
-Submission Status
-   ↓
-Marks + Teacher Feedback
-
-👨‍🏫 Teacher Portal
-
-Dashboard
-
-/teacher/dashboard
-
-Attendance
-
-/teacher/attendance
-
-Assignment review / grading
-
-/teacher/assignments/[id]
-
-Teacher workflow:
-
-Teacher Dashboard
-      ↓
-Select Class
-      ↓
-Record Attendance
-      ↓
-Review Assignment
-      ↓
-Enter Marks
-      ↓
-Add Feedback
-      ↓
-Grade Submission
-
-🏛️ Administrator Portal
-
-Dashboard
-
-/admin/dashboard
-
-Management Center
-
-/admin/management
-
-Reports
-
-/admin/reports
-
-Administrator workflow:
-
-Admin Dashboard
-      ↓
-Management Center
-      ├── Students
-      ├── Teachers
-      ├── Courses
-      ├── Classes
-      ├── Assignments
-      ├── Examinations
-      └── Academic Records
-
-      ↓
-Reports & Analytics
-      ├── Risk Analysis
-      ├── Activity Monitoring
-      ├── Comparative Metrics
-      └── AI Insights
-
-🧠 AI Architecture
-
-EduMind separates academic data management from academic intelligence.
-
-                    ┌────────────────────┐
-                    │   Academic Data    │
-                    │                    │
-                    │ Attendance         │
-                    │ Assignments        │
-                    │ Exams              │
-                    │ Grades             │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │ Academic Analysis  │
-                    └─────────┬──────────┘
-                              │
-             ┌────────────────┼────────────────┐
-             ▼                ▼                ▼
-       Risk Analysis    Weak Areas       Performance
-             │                │                │
-             └────────────────┼────────────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Recommendations    │
-                    └────────────────────┘
-
-AI Risk
-
-/api/ai/risk
-
-AI Advisor
-
-/api/ai/advisor
-
-The student dashboard surfaces these insights in the user interface.
-
-📊 Academic Analytics
-
-EduMind provides visibility into:
-
-Performance
-
-Average academic score
-
-Grades
-
-Examination marks
-
-Assignment performance
-
-Attendance
-
-Attendance rate
-
-Present
-
-Late
-
-Absent
-
-Excused
-
-Risk
-
-Risk score
-
-Risk level
-
-High-risk students
-
-Medium-risk students
-
-Low-risk students
-
-Activity
-
-Active users
-
-Inactive users
-
-Suspended users
-
-Course count
-
-Class count
-
-Assignment count
-
-Examination count
-
-🗃️ Data Model
-
-EduMind uses PostgreSQL with Prisma ORM.
-
-Core entities:
-
-User
-StudentProfile
-TeacherProfile
-Course
-Class
-Enrollment
-Attendance
-Assignment
-Submission
-Exam
-ExamQuestion
-ExamResult
-Grade
-AIAnalysis
-AIRecommendation
-Report
-
-Relationships support real academic workflows between:
-
-Students
-   ↕
-Enrollments
-   ↕
-Courses
-   ↕
-Classes / Assignments / Exams / Grades
-   ↕
-Academic Intelligence
-
-🧩 API Surface
-
-Authentication
-
-POST /api/auth/login
-GET  /api/auth/me
-POST /api/auth/register
-
-Courses
-
-GET  /api/courses
-GET  /api/courses/[id]
-POST /api/courses/[id]/enroll
-
-Student
-
-GET  /api/student/dashboard
-GET  /api/student/assignments/[id]
-POST /api/student/assignments/[id]/submit
-
-Teacher
-
-GET  /api/teacher/dashboard
-GET  /api/teacher/attendance
-POST /api/teacher/attendance
-
-GET  /api/teacher/assignments/[id]
-POST /api/teacher/assignments/[id]/grade
-
-Administrator
-
-GET   /api/admin/dashboard
-GET   /api/admin/management
-POST  /api/admin/management
-PATCH /api/admin/management
-
-AI
-
-GET /api/ai/risk
-GET /api/ai/advisor
-
-🏗️ Technology Stack
-
-Frontend
-
-Next.js
-
-React
-
-TypeScript
-
-Tailwind CSS
-
-Next.js App Router
-
-Backend
-
-Next.js Route Handlers
-
-TypeScript
-
-Role-based authentication
-
-Protected server-side APIs
-
-Database
-
-PostgreSQL
-
-Prisma ORM
-
-Prisma migrations
-
-Development
-
-Node.js
-
-npm
-
-ESLint
-
-TypeScript
-
-🔐 Access Control
-
-EduMind uses role-based access control.
-
-STUDENT
-  → Student workflows
-
-TEACHER
-  → Teaching workflows
-
-ADMIN
-  → Platform administration
-
-Protected API operations validate the authenticated role before allowing the operation.
-
-📱 Responsive & UI
-
-EduMind is designed for:
-
-Desktop
-
-Tablet
-
-Mobile
-
-The application also supports:
-
-Dark mode
-
-Light mode
-
-Responsive navigation
-
-Mobile-friendly dashboards
-
-Consistent academic UI patterns
-
-🧪 Demo / Seed Data
-
-The repository includes Prisma seed scripts for hackathon demonstration data.
-
-Example seeded academic data includes:
-
-Test student
-
-Test teacher
-
-Test administrator
-
-CSE courses
-
-Classes
-
-Attendance
-
-Assignments
-
-Submissions
-
-Grades
-
-Examinations
-
-Exam results
-
-AI analysis
-
-AI recommendations
-
-Seed
-
-npx tsx prisma/seed.ts
-
-Additional role-specific seed scripts are available in:
-
-prisma/
-├── seed.ts
-├── seed-teacher.ts
-└── seed-admin.ts
-
-🚀 Getting Started
-
-1. Install dependencies
-
+### 1. Clone & Install
+```bash
+git clone https://github.com/Sriman-7/Edumind.git
+cd Edumind
 npm install
+```
 
-2. Configure environment variables
+### 2. Configure Environment Variables
+Create a `.env` file in the root directory:
+```env
+DATABASE_URL="file:./dev.db"
+DIRECT_URL="file:./dev.db"
+AUTH_SECRET="your-super-secret-jwt-key-here"
+# Optional: Google Gemini API Key for live AI advisor features
+GEMINI_API_KEY=""
+```
 
-Create:
-
-.env.local
-
-Use the required database and authentication environment variables for your local setup.
-
-Never commit real secrets.
-
-3. Generate Prisma Client
-
-npx prisma generate
-
-4. Apply migrations
-
-npx prisma migrate dev
-
-5. Seed demonstration data
-
+### 3. Initialize Database & Seed
+```bash
+npx prisma db push
 npx tsx prisma/seed.ts
+```
 
-6. Start development server
-
+### 4. Run Development Server
+```bash
 npm run dev
+```
 
-Open:
+Open [http://localhost:3000](http://localhost:3000) to access EduMind.
 
-http://localhost:3000
+---
 
-✅ Verification
+## 📄 License & Attribution
 
-Before submission:
-
-npx tsc --noEmit
-
-and:
-
-npm run build
-
-The project should complete both checks without errors.
-
-🧪 Suggested AI-Judge Demo Flow
-
-The fastest way to evaluate EduMind is:
-
-1. Open /
-       ↓
-2. Open /courses
-       ↓
-3. Open a course
-       ↓
-4. Login
-       ↓
-5. Open /student/dashboard
-       ↓
-6. Open an assignment
-       ↓
-7. Submit assignment
-       ↓
-8. Login as Teacher
-       ↓
-9. Open /teacher/attendance
-       ↓
-10. Record attendance
-       ↓
-11. Review / grade an assignment
-       ↓
-12. Login as Admin
-       ↓
-13. Open /admin/management
-       ↓
-14. Open /admin/reports
-       ↓
-15. Review AI risk / analytics
-
-🏆 Hackathon Requirement Mapping
-
-Hackathon Requirement
-
-EduMind Implementation
-
-Home
-
-/
-
-Courses
-
-/courses
-
-Contact
-
-/contact
-
-Course Details
-
-/courses/[id]
-
-Search
-
-Courses page
-
-Filtering
-
-Courses page
-
-Schedules
-
-Course Details
-
-Enrollment
-
-/api/courses/[id]/enroll
-
-Student Courses
-
-Student Dashboard
-
-Assignment Submission
-
-/student/assignments/[id]
-
-Attendance
-
-Student Dashboard / Teacher Attendance
-
-Results
-
-Student Dashboard
-
-Progress
-
-Student Dashboard
-
-AI Recommendations
-
-/api/ai/advisor
-
-AI Risk Analysis
-
-/api/ai/risk
-
-Weak Subjects
-
-Student AI section
-
-Teacher Dashboard
-
-/teacher/dashboard
-
-Attendance Recording
-
-/teacher/attendance
-
-Assignment Evaluation
-
-/teacher/assignments/[id]
-
-Examination Support
-
-Course / Student / Admin workflows
-
-Academic Records
-
-Admin Management
-
-Student Management
-
-Admin Management
-
-Teacher Management
-
-Admin Management
-
-Course Management
-
-Admin Management
-
-Class Management
-
-Admin Management
-
-Assignment Management
-
-Admin Management
-
-Examination Monitoring
-
-Admin Management
-
-Performance Analytics
-
-Admin Reports
-
-Comparative Reports
-
-Admin Reports
-
-Activity Monitoring
-
-Admin Reports
-
-AI Insights
-
-Student + Admin Reports
-
-🔭 Product Direction
-
-EduMind is designed as a foundation for a larger intelligent academic platform.
-
-Future extensions can include:
-
-Richer predictive analytics
-
-Real-time academic alerts
-
-Advanced recommendation models
-
-Automated report generation
-
-More granular institutional analytics
-
-Advanced examination workflows
-
-File storage and document processing
-
-Learning-path recommendations
-
-📌 Project Status
-
-Hackathon MVP — Full-stack, role-based, AI-enabled education management platform.
-
-Built with:
-
-Next.js + React + TypeScript + PostgreSQL + Prisma
-
-Focused on:
-
-Manage education data → understand academic performance → identify risk → recommend action.
+Distributed under the **MIT License**. Created by Team **A.X.L** for the Grand Finale Buildathon.
